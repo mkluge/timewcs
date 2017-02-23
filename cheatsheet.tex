@@ -1,0 +1,210 @@
+\documentclass[10pt]{scrartcl}
+
+\usepackage[utf8]{inputenc} % Required for inputting international characters
+\usepackage[T1]{fontenc} % Output font encoding for international characters
+
+\usepackage[margin=0pt, landscape]{geometry} % Page margins and orientation
+
+\usepackage{graphicx} % Required for including images
+\usepackage[most]{tcolorbox}
+%\usepackage[usenames]{xcolor} % Required for color customization
+\definecolor{mygray}{gray}{.75} % Custom color
+
+\usepackage{url} % Required for the \url command to easily display URLs
+
+\usepackage[ % This block contains information used to annotate the PDF
+colorlinks=false, 
+pdftitle={Timewarrior Cheatsheet}, 
+pdfauthor={Michael Kluge}, 
+pdfsubject={timew command overview}, 
+pdfkeywords={Timewarrior, Cheatsheet}
+]{hyperref}
+
+\setlength{\unitlength}{1mm} % Set the length that numerical units are measured in
+\setlength{\parindent}{0pt} % Stop paragraph indentation
+
+\definecolor{cmdcolor}{HTML}{B7ACE0}
+\definecolor{hintscolor}{HTML}{FFD7BA}
+\definecolor{syntaxcolor}{HTML}{EDF2B1}
+
+\renewcommand{\dots}{\ \dotfill{}\ } % Fills in the right amount of dots
+\newcommand{\command}[2]{\texttt{#1}~\dotfill{}~#2\\} % Custom command for adding a shorcut
+\newcommand{\sectiontitle}[1]{\paragraph{#1} \ \\} % Custom command for subsection titles
+
+\newenvironment{cssec}[1]{%
+\vspace*{-0.2cm}
+\begin{tcolorbox}[colback= #1 , coltext=black, box align=top, size=minimal, no shadow, left=2mm,right=2mm]
+\vspace*{0.1cm}
+}
+{
+\vspace*{-0.2cm}
+\end{tcolorbox}
+\vspace*{0.2cm}
+}
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+\begin{picture}(297,210) % Create a container for the page content
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION 
+%----------------------------------------------------------------------------------------
+
+\put(10,205){ % Position on the page to put the title
+\begin{minipage}[t]{210mm} % The size and alignment of the title
+\colorbox{black}{\color{white}\Large Time Warrior Cheatsheet - call \texttt{timew <command> <options>}}
+\hspace{0.1cm}
+\colorbox{cmdcolor}{\color{black}\Large \strut Commands}
+\hspace{0.1cm}
+\colorbox{hintscolor}{\color{black}\Large \strut Hints}
+\hspace{0.1cm}
+\colorbox{syntaxcolor}{\color{black}\Large \strut Syntax}
+\end{minipage}
+}
+
+
+%----------------------------------------------------------------------------------------
+%	FIRST COLUMN SPECIFICATION
+%----------------------------------------------------------------------------------------
+
+\put(10,195){ % Divide the page
+\begin{minipage}[t]{133mm} % Create a box to house text
+
+%----------------------------------------------------------------------------------------
+%	HEADING ONE
+%----------------------------------------------------------------------------------------
+
+
+\begin{cssec}{cmdcolor}
+\sectiontitle{Start/Stop}
+\command{start [<date>] [<tag> ...]}{start}
+\command{track <interval> [<tag> ...]}{like start but closed}
+\command{stop [<date>] [<tag> ...]}{stop}
+\command{continue}{continues the last interval}
+\command{cancel}{drops the current interval}
+\end{cssec}
+
+\begin{cssec}{cmdcolor}
+\sectiontitle{Edit Records}
+\command{delete @<id>}{deletes an interval}
+\command{shorten  @<id> [@<id> ...] <duration>}{removes time from end of interval}
+\command{lengthen @<id> [@<id> ...] <duration>}{add time to end of interval}
+\command{move @<id> <date>}{move interval to new start time}
+\command{split @<id> [@<id> ...]}{split into two equal intervals}
+\command{join @<id>  @<id>}{joins two intervals to one}
+\end{cssec}
+
+\begin{cssec}{cmdcolor}
+\sectiontitle{Tags}
+\command{tag @<id> [<tag> ...]}{add tag to id}
+\command{untag @<id> [<tag> ...]}{remove tag from id}
+\command{tags}{list all tags ever used}
+\end{cssec}
+
+\begin{cssec}{cmdcolor}
+\sectiontitle{Requests}
+\command{summary [<interval>] [<tag> ...]}{summary for time and tags}
+\command{day}{summary for the day}
+\command{week}{summary for the week}
+\command{gaps}{list all time gaps}
+\end{cssec}
+
+\begin{cssec}{cmdcolor}
+\sectiontitle{Misc}
+\command{show}{shows all config variables}
+\command{extensions}{directory that contains the extensions}
+\command{diagnostics}{show diagnostics information}
+\command{export [<interval>] [<tag> ...]}{expors matching intervals as JSON}
+\command{config [<name> [<value> | '']]}{set config variable to new value}
+\end{cssec}
+
+\begin{cssec}{hintscolor}
+\sectiontitle{Control Hints}
+\command{:quiet}{Turns off all feedback. For automation}
+\command{:debug}{Runs in debug mode, shows many runtime details}
+\command{:yes}{Overrides confirmation by answering 'yes' to the questions}
+\command{:color}{Force color on, even if not connected to a TTY}
+\command{:nocolor}{Force color off, even if connected to a TTY}
+\command{:blank}{Leaves tracked time out of a report}
+\command{:fill}{Expand time to fill surrounding available gap}
+\command{:adjust}{Automatically correct overlaps}
+\command{:ids}{Displays interval ID numbers in the summary report}
+\end{cssec}
+
+\footnotesize{Created by Michael Kluge, 2017; Released under the MIT license.}
+\end{minipage} % End the first column of text
+}
+
+%----------------------------------------------------------------------------------------
+%	SECOND COLUMN SPECIFICATION 
+%----------------------------------------------------------------------------------------
+
+\put(153,195){ % Divide the page
+\begin{minipage}[t]{133mm} % Create a box to house text
+
+\begin{cssec}{hintscolor}
+\sectiontitle{Time Range Hints}
+\command{:yesterday}{The 24 hours of the previous day}
+\command{:day}{The 24 hours of the current day}
+\command{:week}{This week}
+\command{:month}{This month}
+\command{:quarter}{This quarter}
+\command{:year}{This year}
+\command{:lastweek}{Last week}
+\command{:lastmonth}{Last month}
+\command{:lastquarter}{Last quarter}
+\command{:lastyear}{Last year}
+\end{cssec}
+
+\begin{cssec}{syntaxcolor}
+\sectiontitle{Time Interval Syntax}
+\texttt{[from] <date>} \\
+\texttt{[from] <date> to/- <date>} \\
+\texttt{[from] <date> for <duration>} \\
+\texttt{<duration> before/after <date>} \\
+\texttt{<duration> ago} \\
+\texttt{[for] <duration>} \\
+\end{cssec}
+
+\begin{cssec}{syntaxcolor}
+\sectiontitle{Date and Time Syntax}
+\command{<extended-date> [T <extended-time>]}{Extended date, optional extended time}
+\command{<date> [T <time>]}{Date, optional time}
+\command{<extended-time>}{Extended time}
+\command{<time>}{Time}
+\textit{extended-date}\\
+\command{YYYY-MM-DD}{Year, month, day}
+\command{YYYY-MM}{Year, month, 1st}
+\command{YYYY-DDD}{Year, Julian day 001-366}
+\command{YYYY-WwwD}{Year, week number, day number}
+\command{YYYY-Www}{Year, week number, day 1}
+\textit{extended-time}\\
+\command{hh:mm[:ss]Z}{Hours, minutes, optional seconds, UTC}
+\command{hh:mm[:ss][+/-hh:mm]}{Hours, minutes, optional seconds, TZ}
+\textit{date}\\
+\command{YYYYMMDD}{Year, month, day}
+\command{YYYYWww}{Year, week number, day number}
+\command{YYYYDDD}{Year, Julian day 001-366}
+\textit{time}\\
+\command{hhmm[ss]Z}{Hour, minutes, optional seconds, UTC}
+\command{hhmm[ss][+/-hh[mm]]}{Hour, minutes, optional seconds, TZ}
+\end{cssec}
+
+\begin{cssec}{syntaxcolor}
+\sectiontitle{Durations}
+\texttt{'P' [nn 'Y'] [nn 'M'] [nn 'D'] ['T' [nn 'H'] [nn 'M'] [nn 'S']]} \\
+\texttt{days, day, d, hours, hour, hrs, hr, h, minutes, ... lots more}\\
+\end{cssec}
+
+
+%----------------------------------------------------------------------------------------
+
+\end{minipage} % End the third column of text
+} % End the third division of the page
+\end{picture} % End the container for the entire page
+
+%----------------------------------------------------------------------------------------
+
+\end{document}
