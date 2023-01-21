@@ -1,4 +1,4 @@
-\documentclass[10pt]{scrartcl}
+\documentclass[8pt]{scrartcl}
 
 \usepackage[utf8]{inputenc} % Required for inputting international characters
 \usepackage[T1]{fontenc} % Output font encoding for international characters
@@ -13,10 +13,10 @@
 \usepackage{url} % Required for the \url command to easily display URLs
 
 \usepackage[ % This block contains information used to annotate the PDF
-colorlinks=false, 
-pdftitle={Timewarrior Cheatsheet}, 
-pdfauthor={Michael Kluge}, 
-pdfsubject={timew command overview}, 
+colorlinks=false,
+pdftitle={Timewarrior Cheatsheet},
+pdfauthor={Michael Kluge},
+pdfsubject={timew command overview},
 pdfkeywords={Timewarrior, Cheatsheet}
 ]{hyperref}
 
@@ -49,12 +49,12 @@ pdfkeywords={Timewarrior, Cheatsheet}
 \begin{picture}(297,210) % Create a container for the page content
 
 %----------------------------------------------------------------------------------------
-%	TITLE SECTION 
+%	TITLE SECTION
 %----------------------------------------------------------------------------------------
 
 \put(10,205){ % Position on the page to put the title
 \begin{minipage}[t]{210mm} % The size and alignment of the title
-\colorbox{black}{\color{white}\Large Timewarrior 1.0.0 Cheatsheet - call \texttt{timew <command> <options>}}
+\colorbox{black}{\color{white}\Large Timewarrior 1.4.3 Cheatsheet - call \texttt{timew [<command> [<arg>...]]}}
 \hspace{0.1cm}
 \colorbox{cmdcolor}{\color{black}\Large \strut Commands}
 \hspace{0.1cm}
@@ -69,55 +69,71 @@ pdfkeywords={Timewarrior, Cheatsheet}
 %	FIRST COLUMN SPECIFICATION
 %----------------------------------------------------------------------------------------
 
-\put(10,195){ % Divide the page
+\put(10,200){ % Divide the page
 \begin{minipage}[t]{133mm} % Create a box to house text
 
 %----------------------------------------------------------------------------------------
 %	HEADING ONE
 %----------------------------------------------------------------------------------------
-
-
 \begin{cssec}{cmdcolor}
-\sectiontitle{Start/Stop}
-\command{start [<date>] [<tag> ...]}{start}
-\command{track <interval> [<tag> ...]}{like start but closed}
-\command{stop [<date>] [<tag> ...]}{stop}
-\command{continue}{continues the last interval}
-\command{cancel}{drops the current interval}
+\sectiontitle{Setup and configure}
+\command{timew [--version|--help]}{show version or help}
+\command{help {<command>|interval|hints|date|duration}}{display help}
+\command{config [<name> {<value>|''}]}{get and set configuration}
+\command{show}{display configuration}
 \end{cssec}
 
 \begin{cssec}{cmdcolor}
-\sectiontitle{Edit Records}
-\command{delete @<id>}{deletes an interval}
-\command{shorten  @<id> [@<id> ...] <duration>}{removes time from end of interval}
-\command{lengthen @<id> [@<id> ...] <duration>}{add time to end of interval}
-\command{move @<id> <date>}{move interval to new start time}
-\command{split @<id> [@<id> ...]}{split into two equal intervals}
-\command{join @<id>  @<id>}{joins two intervals to one}
+\sectiontitle{Basic Commands}
+\command{start [<date>] [<tag>...]}{start time tracking}
+\command{stop [<date>] [<tag>...]}{stop time tracking}
+\command{track <range> [<tag>...]}{add tracked time in the past}
+\command{cancel}{cancel time tracking}
+\command{continue [<id>|<tag>...] [<datetime>|<range>]}{resume tracking}
 \end{cssec}
 
 \begin{cssec}{cmdcolor}
-\sectiontitle{Tags}
-\command{tag @<id> [<tag> ...]}{add tag to id}
-\command{untag @<id> [<tag> ...]}{remove tag from id}
-\command{tags}{list all tags ever used}
+\sectiontitle{Modifying Intervals}
+\command{delete <id>...}{delete interval}
+\command{move <id> <date>}{change interval start-time}
+\command{lengthen <id>... <duration>}{defer the end date of a closed interval}
+\command{shorten  <id>... <duration>}{advance the end date of a closed interval}
+\command{resize <id>... <duration>}{change the duration of a closed interval}
+\command{modify (start|end) <id> <date>}{change the start or end date of an interval}
+\command{split <id>...}{split into two equal intervals}
+\command{join <id> <id>}{joins two intervals to one}
+\command{undo}{revert interval affecting commands}
 \end{cssec}
 
 \begin{cssec}{cmdcolor}
-\sectiontitle{Requests}
-\command{summary [<interval>] [<tag> ...]}{summary for time and tags}
-\command{day}{summary for the day}
-\command{week}{summary for the week}
-\command{gaps}{list all time gaps}
+\sectiontitle{Managing Meta Information}
+\command{annotate [<id>...] <annotation>}{add an annotation to an interval}
+\command{tag [<id>...] <tag>...}{add a tag to an interval}
+\command{untag [<id>...] <tag>...}{remove a tag from an interval}
+\command{tags [<range>]}{display a list of tags}
 \end{cssec}
 
 \begin{cssec}{cmdcolor}
-\sectiontitle{Misc}
-\command{show}{shows all config variables}
-\command{extensions}{directory that contains the extensions}
-\command{diagnostics}{show diagnostics information}
-\command{export [<interval>] [<tag> ...]}{expors matching intervals as JSON}
-\command{config [<name> [<value> | '']]}{set config variable to new value}
+\sectiontitle{Reporting and Exporting}
+\command{day [<range>] [<tag>...]}{summary for the day}
+\command{week [<range>] [<tag>...]}{summary for the week}
+\command{month [<range>] [<tag>...]}{summary for the month}
+\command{summary [<range>] [<tag>...]}{display a summary report}
+\command{report <report> [<range>] [<tag>...]}{run an extension report}
+\command{export [ <id>... | ([<range>] [<tag>...]) ]}{export tracked time in JSON}
+\end{cssec}
+
+\begin{cssec}{cmdcolor}
+\sectiontitle{Advanced Commands}
+\command{get <DOM>...}{display DOM values}
+\command{fill <id>...}{adjust intervals to fill in surrounding gap}
+\command{gaps [<range>] [<tag>...]}{display time tracking gaps}
+\end{cssec}
+
+\begin{cssec}{cmdcolor}
+\sectiontitle{Diagnostics}
+\command{extensions}{list available extensions}
+\command{diagnostics}{show diagnostic information}
 \end{cssec}
 
 \begin{cssec}{hintscolor}
@@ -138,17 +154,19 @@ pdfkeywords={Timewarrior, Cheatsheet}
 }
 
 %----------------------------------------------------------------------------------------
-%	SECOND COLUMN SPECIFICATION 
+%	SECOND COLUMN SPECIFICATION
 %----------------------------------------------------------------------------------------
 
-\put(153,195){ % Divide the page
+\put(153,200){ % Divide the page
 \begin{minipage}[t]{133mm} % Create a box to house text
 
 \begin{cssec}{hintscolor}
 \sectiontitle{Time Range Hints}
+\command{:all}{All tracked time}
 \command{:yesterday}{The 24 hours of the previous day}
 \command{:day}{The 24 hours of the current day}
 \command{:week}{This week}
+\command{:fortnight}{This week and the one before}
 \command{:month}{This month}
 \command{:quarter}{This quarter}
 \command{:year}{This year}
@@ -156,10 +174,17 @@ pdfkeywords={Timewarrior, Cheatsheet}
 \command{:lastmonth}{Last month}
 \command{:lastquarter}{Last quarter}
 \command{:lastyear}{Last year}
+\command{:monday}{Previous monday}
+\command{:tuesday}{Previous tuesday}
+\command{:wednesday}{Previous wednesday}
+\command{:thursday}{Previous thursday}
+\command{:friday}{Previous friday}
+\command{:saturday}{Previous saturday}
+\command{:sunday}{Previous sunday}
 \end{cssec}
 
 \begin{cssec}{syntaxcolor}
-\sectiontitle{Time Interval Syntax}
+\sectiontitle{Time Ranges Syntax}
 \texttt{[from] <date>} \\
 \texttt{[from] <date> to/- <date>} \\
 \texttt{[from] <date> for <duration>} \\
@@ -195,9 +220,11 @@ pdfkeywords={Timewarrior, Cheatsheet}
 \begin{cssec}{syntaxcolor}
 \sectiontitle{Durations}
 \texttt{'P' [nn 'Y'] [nn 'M'] [nn 'D'] ['T' [nn 'H'] [nn 'M'] [nn 'S']]} \\
-\texttt{days, day, d, hours, hour, hrs, hr, h, minutes, ... lots more}\\
+\texttt{annual, biannual, bimonthly, biweekly, biyearly, daily, days, day, d, hours, hour, hrs, hr, h, minutes, \
+    minute, mins, min, monthly, months, month, mnths, mths, mth, mos, mo, m, quarterly, quarters, quarter, qrtrs, \
+    qtr, q, semiannual, sennight, seconds, second, secs, sec, s, weekdays,i weekly, weeks, week, wks, wk, wi \
+    yearly, years, year, yrs, yr, y}\\
 \end{cssec}
-
 
 %----------------------------------------------------------------------------------------
 
